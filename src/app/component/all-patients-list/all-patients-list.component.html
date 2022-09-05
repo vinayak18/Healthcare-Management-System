@@ -1,0 +1,36 @@
+<p>all-patients-list works!</p>
+<app-header></app-header>
+  <div class="table-div">
+    <table class="table-class">
+      <thead>
+        <tr class="table-head">
+          <th>Patient ID</th>
+          <th>FirstName</th>
+          <th>LastName</th>
+          <th>Gender</th>
+          <th>DOB(yyyy-MM-dd)</th>
+          <th>Mobile</th>
+          <th>Email</th>
+          <th>Registered on</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- display all patients list -->
+        <tr id="table-row" *ngFor="let patient of allPatients">
+            <td id="table-id" ><!--display id-->{{patient.id}}</td>
+          <td id="table-firstname" class="td-column"><!--display firstName-->{{patient.firstName}}</td>
+          <td id="table-lastname" ><!--display lastName-->{{patient.lastName}}</td>
+          <td id="table-gender"><!--display gender-->{{patient}}</td>
+          <td id="table-dob"><!--display dob-->{{patient.dob}}</td>
+          <td id="table-mobile"><!--display mobile-->{{patient.mobile}}</td>
+          <td id="table-email"><!--display email-->{{patient.email}}</td>
+          <td id="table-registeredOn"><!--display registeredTime-->{{patient.registeredTime}}</td>
+          <td class="column-btn">
+            <!--call view method with selected id when clicking this button-->
+            <a id="view" class="view-details" (click)="view(patient.id)">View Details</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

@@ -1,0 +1,41 @@
+<app-header></app-header>
+  <div class="table-container">
+    <table *ngIf="allAppointments" class="table-class">
+      <thead>
+        <tr class="table-head">
+          <th>Appointment id</th>
+          <th>Patient id</th>
+          <th>Patient name</th>
+          <th>Disease</th>
+          <th>Priority</th>
+          <th>Tentative date</th>
+          <th>Requested on</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--display all appointments -->
+        <tr id="table-row" *ngFor="let apt of allAppointments">
+          <td id="app-id" ><!--display id-->{{apt.id}}</td>
+          <td id="patient-id" ><!--display patientId-->{{apt.patientId}}</td>
+          <td id="patient-name" ><!--display patientFirstName, patientLastName-->{{apt.patientFirstName}}, {{apt.patientLastName}}</td>
+          <td id="table-disease" class="td-column"><!--display disease-->{{apt.disease}}</td>
+          <td id="table-priority" ><!--display priority-->{{apt.priority}}</td>
+          <td id="table-tentativedate"><!--display tentativedate-->{{apt.tentativedate}}</td>
+          <td id="table-requestedOn"><!--display registeredTime-->{{apt.registeredTime}}</td>
+          <td>
+            <!--call view method with selected patient id when clicking this tag-->
+              <a id="view" class="view-details" (click)="view(apt.patientId)">View Details</a>
+            <!-- call cancelAppointment method with selected appointment id when clicking on this button-->
+            <button id="reject" class="btn btn-danger btn-value" (click)="cancelAppointment(apt.id)">Cancel Appointment
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+        "disease": "Flu",
+        "priority": "Normal",
+        "tentativedate": "2019-02-21",
+        "registeredTime": "2019-02-19T10:30:06.127Z",
+        "id": 13

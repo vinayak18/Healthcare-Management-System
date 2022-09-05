@@ -1,0 +1,86 @@
+run install -> bash .install.sh
+run start -> npm start
+run test -> npm test
+Total Testcases -> 120
+
+Create an Angular application Healthcare Service that can be used by the receptionist of a hospital to register patients and book/cancel appointments.
+
+Application Workflow - 
+
+Login -
+1. The LOGIN page must contain Username and Password fields, and a Login button.
+2. If there are no inputs in the Username/Password fields, an error message must be displayed.
+3. The Login button should be enabled only if all the fields pass the required validations.
+4. The Username should be a minimum of 3 characters, and the Password should be a minimum of 8 characters.
+5. Password Pattern: Should contain at least one upper case letter, one lower case letter, one numeric digit, and one special character. 
+   The allowed special characters are !$%@#£€*?&. 
+   Example: pasSword8#
+   Error messages must be displayed for invalid inputs.
+7. The Username and Password should not exceed 20 characters.
+   Error messages must be displayed for invalid inputs.
+
+Profile -
+1. The Profile page must contain a user profile section (Name, Contact number, Email, and Location) with an Edit profile button.
+2. A user should be able to edit their profile details in the form that appears when the Edit profile button is clicked.
+3. A user should be able to edit all details except Name (disabled).
+4. The Contact number should be exactly 10 digits, and Email should be a valid email ID. 
+   Error messages must be displayed for invalid inputs.
+5. When the user successfully submits the updates, the changes must be displayed.
+6. When the Discard button is clicked, the form must be hidden.
+7. None of the input fields should be empty.
+8. The Make changes button should be enabled only if all the fields pass the required validations.
+
+Register Patient -
+1. The fields marked * are mandatory.
+2. The Submit button should be enabled only after the user has entered details in all the mandatory fields. 
+3. On submitting the registration form, the user should be redirected to the View all patients page where the list of all the patients should be displayed.
+4. First Name should be a minimum of 3 characters and a maximum of 20 characters, and should not be empty.
+5. Last Name should be a minimum of 3 characters and a maximum of 20 characters, and should not be empty.
+6. Gender should not be empty.
+7. DOB should not be empty.
+8. The Contact number should be exactly 10 digits and should not be empty.
+9. The Email should be valid.The description field is optional.
+10. Error messages must be displayed for invalid inputs.
+
+View all Patients - 
+1. Should display all the registered patients.
+2. On clicking View Details, details of the selected patient should be displayed.
+3. On clicking the Book Appointment button, the Book Appointment form should be displayed.
+4. The fields marked with * are mandatory.
+5. The Schedule button should be enabled only after the user has entered details in all the mandatory fields.
+6. After booking an appointment, the user should be redirected to the Requested Appointments page where all the appointments should be displayed.
+7. The Scheduled Appointments table should be displayed when the Scheduled Appointments button is clicked.
+8. The table should display all the appointments of the selected patient.
+9. On clicking the Cancel Appointment button, the appointment should be deleted.
+10. Display an appropriate message if there is no appointment.
+
+Requested Appointments -
+1. Should display the booked appointments of all the patients.
+2. On clicking View Details, details of the selected patient should be displayed.
+3. On clicking the Cancel Appointment button, the appointment should be deleted.
+
+Header - 
+1. The header component should be displayed at the top of all pages except the Login page.
+2. The header component should display the name of the logged-in user.
+3. Clicking on a particular menu should navigate to the corresponding page.
+
+
+Services - 
+
+Services in the application: 
+1. API Service
+    - Service for API calls to the backend server.
+2. Auth Guard
+    - To prevent navigation to the application pages other than the login page for unauthorized users.
+3. Data Service
+    - Acts as middleware between a component and API service.
+
+Other Instructions - 
+1. All the project files should be kept in the src folder.
+2. Do not modify the ids or classes of the existing UI elements as the unit tests require them.
+3. The API URL is predefined in the service as API_URL. You can use API_URL + endpoint as required.
+5. To log in, use the credentials available at server/users.json.
+
+Notes - 
+1. Replace the colored text with the appropriate value.
+2. If the backend server stops responding, rerun the application, and restart the server.
