@@ -36,5 +36,9 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  doLogout(){
+    this.dataService.doLogOut();
+  }
+
 
 }

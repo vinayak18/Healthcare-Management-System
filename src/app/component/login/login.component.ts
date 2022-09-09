@@ -34,15 +34,14 @@ export class LoginComponent implements OnInit {
 		// add necessary validators
 		
 		this.loginForm = new FormGroup({
-			userName: new FormControl('',[Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9]+$')]),
-			password: new FormControl('',[Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern('^[ A-Za-z0-9_@!./#&+-]+$')])
+			userName: new FormControl('',[Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9]*$')]),
+			password: new FormControl('',[Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[ A-Za-z0-9_@$!./#&+-]*$')])
 		});
 	}
 
 	doLogin() {
 
 		// call authenticateUser method to perform login operation
-		console.log("user-"+this.loginForm.get("userName").value+" pass-"+this.loginForm.get("password").value)
 		this.dataService.authenticateUser(this.loginForm.get("userName").value,this.loginForm.get("password").value).subscribe((data)=>{
 			this.isLoggedIn = true;
 			this.isLoginFailed = false;

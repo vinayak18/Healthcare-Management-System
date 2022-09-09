@@ -14,7 +14,7 @@
             <input type="text" id="username" formControlName="userName" placeholder="username">
   
             <div class="form-error-messages"
-              id="error-no-username"  *ngIf="loginForm.controls['userName'].hasError('required') && loginForm.controls['userName'].touched">
+              id="error-no-username"  *ngIf="loginForm.controls['userName'].hasError('required') && loginForm.controls['userName'].dirty">
               {{emptyUserName}}
             </div>
             <div class="form-error-messages"
@@ -36,7 +36,7 @@
             </label>
             <input type="password" formControlName="password" id="password" placeholder="password">
             <div class="form-error-messages"
-              id="error-no-password" *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+              id="error-no-password" *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].dirty">
               {{emptyPassword}}
             </div>
             <div class="form-error-messages"

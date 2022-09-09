@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 8000 --disable-host-check --host 0.0.0.0",
+    "start": "node dbserver.js | ng serve --port 8000 --disable-host-check --host 0.0.0.0",
     "build": "ng build",
     "test": "ng test --watch=false",
     "lint": "ng lint",

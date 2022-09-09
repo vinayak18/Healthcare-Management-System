@@ -12,20 +12,20 @@
         </div>
 
         <!-- call submitForm method with all form values if form is valid -->
-        <form>
+        <form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.controls)">
 
           <div class="form-group">
             <label class="label-name">
               First Name:<span class="required">*</span>
             </label>
-            <input id="firstname" class="form-control text-box" type="text" placeholder="FIRSTNAME">
-            <div id="error-no-firstname" class="alert alert-danger error-msg">
+            <input id="firstname" formControlName="firstName" class="form-control text-box" type="text" placeholder="FIRSTNAME">
+            <div id="error-no-firstname" *ngIf="complexForm.controls['firstName'].hasError('required') && complexForm.controls['firstName'].dirty" class="alert alert-danger error-msg">
               {{emptyFirstname}}
             </div>
-            <div id="error-minlength-firstname" class="alert alert-danger error-msg">
+            <div id="error-minlength-firstname" *ngIf="complexForm.controls['firstName'].hasError('minlength')" class="alert alert-danger error-msg">
               {{minlengthFirstname}}
             </div>
-            <div id="error-maxlength-firstname" class="alert alert-danger error-msg">
+            <div id="error-maxlength-firstname" *ngIf="complexForm.controls['firstName'].hasError('maxlength')" class="alert alert-danger error-msg">
               {{maxlengthFirstname}}
             </div>
           </div>
@@ -34,14 +34,14 @@
             <label class="label-name">Last Name:
               <span class="required">*</span>
             </label>
-            <input id="lastname" class="form-control text-box" type="text" placeholder="LASTNAME">
-            <div id="error-no-lastname"  class="alert alert-danger error-msg">
+            <input id="lastname" formControlName="lastName" class="form-control text-box" type="text" placeholder="LASTNAME">
+            <div id="error-no-lastname" *ngIf="complexForm.controls['lastName'].hasError('required') && complexForm.controls['lastName'].dirty"  class="alert alert-danger error-msg">
               {{emptyLastname}}
             </div>
-            <div id="error-minlength-lastname"  class="alert alert-danger error-msg">
+            <div id="error-minlength-lastname" *ngIf="complexForm.controls['lastName'].hasError('minlength')"  class="alert alert-danger error-msg">
               {{minlengthLastname}}
             </div>
-            <div id="error-maxlength-lastname" class="alert alert-danger error-msg">
+            <div id="error-maxlength-lastname" *ngIf="complexForm.controls['lastName'].hasError('maxlength')" class="alert alert-danger error-msg">
               {{maxlengthLastname}}
             </div>
           </div>
@@ -51,12 +51,12 @@
               <span class="required">*</span>
             </label>
             <div class="input-div">
-            <input type="radio" id="male" class="input-content" value="Male" >
+            <input type="radio" id="male" formControlName="gender" class="input-content" value="Male" >
             <label class="label-content" for="male">Male</label>
-            <input type="radio" id="female" class="input-content" value="Female" >
+            <input type="radio" id="female" formControlName="gender" class="input-content" value="Female" >
             <label class="label-content" for="female">Female</label>
             </div>
-            <div id="error-no-gender" class="alert alert-danger error-msg">
+            <div id="error-no-gender" *ngIf="complexForm.controls['gender'].hasError('required')" class="alert alert-danger error-msg">
               {{noGender}}
             </div>
           </div>
@@ -66,9 +66,9 @@
               Date of birth:<span class="required">*</span>
             </label>
             <div >
-            <input id="date-input" class="form-control date-input glyphicon glyphicon-calendar" type="date" placeholder="Date of birth" min="1968-01-01" max="{{today}}">
+            <input id="date-input" formControlName="dob" class="form-control date-input glyphicon glyphicon-calendar" type="date" placeholder="Date of birth" min="1968-01-01" max="{{today}}">
             </div>
-            <div id="error-no-dob" class="alert alert-danger error-msg">
+            <div id="error-no-dob" *ngIf="complexForm.controls['dob'].hasError('required') && complexForm.controls['dob'].dirty" class="alert alert-danger error-msg">
               {{noDob}}
             </div>
           </div>
@@ -77,14 +77,14 @@
             <label class="label-name">
               Contact number:<span class="required">*</span>
             </label>
-            <input id="mobile" class="form-control text-box" type="text" placeholder="mobile number">
-            <div id="error-no-mobile" class="alert alert-danger error-msg">
+            <input id="mobile" formControlName="mobile" class="form-control text-box" type="text" placeholder="mobile number">
+            <div id="error-no-mobile" *ngIf="complexForm.controls['mobile'].hasError('required') && complexForm.controls['mobile'].dirty" class="alert alert-danger error-msg">
               {{noMobile}}
             </div>
-            <div id="error-number-mobile" class="alert alert-danger error-msg">
+            <div id="error-number-mobile" *ngIf="complexForm.controls['mobile'].hasError('pattern')" class="alert alert-danger error-msg">
               {{numberMobile}}
             </div>
-            <div id="error-maxlength-mobile" class="alert alert-danger error-msg">
+            <div id="error-maxlength-mobile" *ngIf="complexForm.controls['mobile'].hasError('maxlength')" class="alert alert-danger error-msg">
               {{maxlengthMobile}}
             </div>
           </div>
@@ -93,9 +93,9 @@
             <label class="label-name" for="email">
               Email:<span class="required">*</span>
             </label>
-            <input id="email" class="form-control text-box" type="email"  placeholder="example:abc12@tcs.com">
+            <input id="email" class="form-control text-box" formControlName="email" type="email"  placeholder="example:abc12@tcs.com">
 
-            <div id="error-pattern-email" class="alert alert-danger error-msg">
+            <div id="error-pattern-email" *ngIf="complexForm.controls['email'].hasError('pattern')" class="alert alert-danger error-msg">
               {{patternEmail}}
             </div>
           </div>
@@ -104,12 +104,12 @@
             <label class="label-name" for="description">
               Description: <span class="xs-font">(Optional)</span>
             </label>
-            <textarea id="description" class="form-control " placeholder="Briefly describe the issue"></textarea>
+            <textarea id="description" class="form-control " formControlName="description" placeholder="Briefly describe the issue"></textarea>
           </div>
 
           <div class="form-group">
           <!-- disable button if form not valid -->
-            <button type="submit" id="submit-btn" class="btn btn-primary submit-btn">Submit</button>
+            <button type="submit" id="submit-btn" [disabled]="complexForm.invalid" class="btn btn-primary submit-btn">Submit</button>
           </div>
 
         </form>

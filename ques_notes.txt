@@ -39,8 +39,9 @@ Register Patient -
 6. Gender should not be empty.
 7. DOB should not be empty.
 8. The Contact number should be exactly 10 digits and should not be empty.
-9. The Email should be valid.The description field is optional.
-10. Error messages must be displayed for invalid inputs.
+9. The Email should be valid.
+10. The description field is optional.
+11. Error messages must be displayed for invalid inputs.
 
 View all Patients - 
 1. Should display all the registered patients.

@@ -14,7 +14,6 @@ server.use(bodyParser.urlencoded({ extended: true }))
 server.use(bodyParser.json())
 
 function isAuthenticated({ username, password }) {
-    console.log('user--'+username+" pass--"+password);
     return userdb.users.findIndex(user => user.username === username && user.password === password) !== -1
 }
 

@@ -6,7 +6,7 @@ import { Users } from '../models/users.model';
 import { Patient } from '../models/patient';
 import { Appointment } from '../models/appointment';
 import { ApiService } from './api.service';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class DataService {
@@ -20,15 +20,16 @@ export class DataService {
   authenticateUser(username: string, password: string): Observable<boolean> {
 
     // store 'userId' from response as key name 'userId' to the localstorage
-    console.log("user-"+username+" pass-"+password);
     this.api.checkLogin(username,password).subscribe((data)=>{
       localStorage.setItem('userId',''+data.userId);
+      this.isLogIn.next(true);
       this.isLoggedIn = true;
     },(err)=>{
       this.isLoggedIn = false;
+      this.isLogIn.next(false);
     })
     // return true if user authenticated
-    return this.getAuthStatus();
+    return localStorage.getItem('userId')!==null ? of(true):of(false);
     // return false if user not authenticated 
   }
 
@@ -40,6 +41,7 @@ export class DataService {
     // remove the key 'userId' if exists
     if(localStorage.getItem('userId')!=null){
       localStorage.removeItem('userId');
+      this.isLogIn.next(false);
     }
   }
 
@@ -47,14 +49,21 @@ export class DataService {
 
     // should return user details retrieved from api service
 
-    return;
+    return this.api.getUserDetails(userId);
+    // .pipe(catchError((err)=>{
+    //   let error = { }
+    //   return throwError(err);
+    // }));
   }
 
   updateProfile(userDetails): Observable<boolean> {
 
     // should return the updated status according to the response from api service
-
-    return;
+    let user = null;
+    this.api.updateDetails(userDetails).subscribe((data)=>{
+      user = data;
+    })
+    return user!=null?of(true):of(false);
   }
 
   registerPatient(patientDetails): Observable<any> {
@@ -64,7 +73,7 @@ export class DataService {
 
     // handle error 
 
-    return;
+    return this.api.registerPatient(patientDetails);
 
   }
 
@@ -75,7 +84,7 @@ export class DataService {
 
     // handle error 
 
-    return;
+    return this.api.getAllPatientsList();
 
   }
 
@@ -85,7 +94,7 @@ export class DataService {
 
     // handle error 
 
-    return;
+    return this.api.getParticularPatient(id);
   }
   
   getDiseasesList(): Observable<any> {
@@ -94,7 +103,7 @@ export class DataService {
 
     // handle error 
 
-    return;
+    return this.api.getDiseasesList();
   }
 
   bookAppointment(appointmentDetails): Observable<any> {
@@ -103,7 +112,7 @@ export class DataService {
 
     // handle error 
 
-    return;
+    return this.api.bookAppointment(appointmentDetails);
   }
 
   getAppointments(patientId): Observable<any> {
@@ -112,7 +121,7 @@ export class DataService {
 
     // handle error 
 
-    return;
+    return this.api.getAppointments(patientId);
   }
 
   deleteAppointment(appointmentId): Observable<any> {
@@ -121,7 +130,7 @@ export class DataService {
 
     // handle error 
 
-    return;
+    return this.api.deleteAppointment(appointmentId);
   }
 
   requestedAppointments(): Observable<any> {
@@ -130,14 +139,16 @@ export class DataService {
 
     // handle error 
 
-    return;
+    return this.api.requestedAppointments();
   }
 
   getUserId(): number {
 
     // retrieve 'userId' from localstorage
-
-    return;
+    if(localStorage.getItem('userId')  && this.isLogIn.value===true){
+      return Number(localStorage.getItem('userId'));
+    }
+    return -1;
   }
 
 

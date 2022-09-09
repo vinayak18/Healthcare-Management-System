@@ -18,6 +18,7 @@ export class ViewPatientComponent implements OnInit {
 
   patient;
   names;
+  patientId;
   today;
   isBookAppointment: boolean = true;
   isFormEnabled: boolean = false;
@@ -32,9 +33,9 @@ export class ViewPatientComponent implements OnInit {
     this.today = this.datePipe.transform(Date.now(), 'yyyy-MM-dd');
     // add necessary validators
     this.appointmentForm = fb.group({
-      'selectDisease' : [null],
-      'tentativeDate' : [null],
-      'priority' : [null]
+      'selectDisease' : ['',Validators.required],
+      'tentativeDate' : ['',Validators.required],
+      'priority' : ['',Validators.required]
     })
 
    }
@@ -42,13 +43,23 @@ export class ViewPatientComponent implements OnInit {
   ngOnInit() {
 
     // get selected patient id
+    this.patientId = this.activatedRoute.snapshot.params['id'];
     // get Particular Patient from service using patient id and assign response to patient property
+    this.dataService.getParticularPatient(this.patientId).subscribe((data)=>{
+      this.patient = data;
+    });
 
   }
 
   bookAppointment() {
     // get diseases list from service
-
+    this.dataService.getDiseasesList().subscribe((data)=>{
+      this.names = data;
+    });
+    this.isBookAppointment = false;
+    this.isScheduledAppointment = true;
+    this.isFormEnabled = true;
+    this.isTableEnabled = false;
     // change isBookAppointment, isScheduledAppointment, isFormEnabled, isTableEnabled property values appropriately
   }
 
@@ -58,22 +69,42 @@ export class ViewPatientComponent implements OnInit {
     // patientId, patientFirstName, patientLastName, disease, priority, tentativedate, registeredTime
 
     // if booked successfully should redirect to 'requested_appointments' page
+    this.appointmentDetails.patientId = this.patientId;
+    this.appointmentDetails.patientFirstName = this.patient.firstName;
+    this.appointmentDetails.patientLastName = this.patient.lastName;
+    this.appointmentDetails.disease = this.appointmentForm.controls['selectDisease'].value;
+    this.appointmentDetails.priority = this.appointmentForm.controls['priority'].value;
+    this.appointmentDetails.tentativedate = this.appointmentForm.controls['tentativeDate'].value;
+    this.appointmentDetails.registeredTime = new Date();
+    this.dataService.bookAppointment(this.appointmentDetails).subscribe((data)=>{
+      this.bookedAppointmentResponse = data;
+      this.route.navigateByUrl('requested_appointments');
+    })
     
   }
 
   scheduledAppointment() {
 
     // change isBookAppointment, isScheduledAppointment, isFormEnabled, isTableEnabled property values appropriately
-
+    this.isBookAppointment = true;
+    this.isScheduledAppointment = false;
+    this.isFormEnabled = false;
+    this.isTableEnabled = true;
     // get particular patient appointments using getAppointments method of DataService 
+    this.dataService.getAppointments(this.patientId).subscribe((data)=>{
+      this.ScheduledAppointmentResponse = data;
+    })
 
   }
 
   cancelAppointment(id) {
 
     // delete selected appointment uing service
+    this.dataService.deleteAppointment(this.ScheduledAppointmentResponse.id).subscribe((data)=>{
 
+    })
     // After deleting the appointment, get particular patient appointments
+    this.scheduledAppointment();
 
   }
   

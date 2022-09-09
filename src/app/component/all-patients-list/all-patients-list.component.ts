@@ -25,7 +25,7 @@ export class AllPatientsListComponent implements OnInit {
   }
 
   view(patientId) {
-    this.route.navigateByUrl('/patientList/'+patientId);
+    this.route.navigate(['/patientList/'+patientId]);
     // should navigate to 'patientList' page with selected patientId
     
   }

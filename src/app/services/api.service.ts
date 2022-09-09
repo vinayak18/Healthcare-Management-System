@@ -13,7 +13,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class ApiService {
 
   API_URL: String;
-  AUTH_API_URL = '/auth/server';
+  AUTH_API_URL = '/auth/server/';
 
   constructor(private http: HttpClient) {
     this.API_URL = 'api';
@@ -21,18 +21,17 @@ export class ApiService {
 
   public checkLogin(username: string, password: string): Observable<Credentials> {
     // should return response from server
-    console.log("user-"+username+" pass-"+password);
-    return this.http.post<Credentials>(this.AUTH_API_URL,{'username':username, 'password':password});
+    return this.http.post<Credentials>(this.API_URL+this.AUTH_API_URL,{'username':username, 'password':password}).pipe(catchError(this.handleError));
     // handle error 
 
   }
 
   public getUserDetails(userId: number): Observable<Users> {
     // should return user details retireved from server
-
+    
     // handle error 
 
-    return;
+    return this.http.get<Users>(this.API_URL+'/users/'+userId).pipe(catchError(this.handleError));
   }
 
   public updateDetails(userDetails: Users): Observable<Users> {
@@ -40,7 +39,7 @@ export class ApiService {
 
     // handle error 
 
-    return;
+    return this.http.put<Users>(this.API_URL+'/users/'+userDetails.userId,userDetails).pipe(catchError(this.handleError));
   }
 
   public registerPatient(patientDetails: any): Observable<any> {
@@ -49,7 +48,7 @@ export class ApiService {
 
     // handle error 
 
-    return;
+    return this.http.post(this.API_URL+'/allpatients',patientDetails).pipe(catchError(this.handleError));
   }
 
   public getAllPatientsList(): Observable<any> {
@@ -58,7 +57,7 @@ export class ApiService {
 
     // handle error 
 
-    return;
+    return this.http.get(this.API_URL+'/allpatients').pipe(catchError(this.handleError));
   }
 
   public getParticularPatient(id): Observable<any> {
@@ -67,7 +66,7 @@ export class ApiService {
 
     // handle error 
 
-    return;
+    return this.http.get(this.API_URL+'/allpatients/'+id).pipe(catchError(this.handleError));
   }
 
   public getDiseasesList(): Observable<any> {
@@ -76,7 +75,7 @@ export class ApiService {
 
     // handle error 
 
-    return;
+    return this.http.get(this.API_URL+'/diseases').pipe(catchError(this.handleError));
   }
 
   public bookAppointment(appointmentDetails: any): Observable<any> {
@@ -85,7 +84,7 @@ export class ApiService {
 
     // handle error 
 
-    return;
+    return this.http.post(this.API_URL+'/reqappointments',appointmentDetails).pipe(catchError(this.handleError));
   }
 
   public requestedAppointments(): Observable<any> {
@@ -94,7 +93,7 @@ export class ApiService {
 
     // handle error 
 
-    return;
+    return this.http.get(this.API_URL+'/reqappointments').pipe(catchError(this.handleError));
   }
 
   public getAppointments(userId): Observable<any> {
@@ -103,7 +102,7 @@ export class ApiService {
 
     // handle error 
 
-    return;
+    return this.http.get(this.API_URL+"/reqappointments?patientId="+userId).pipe(catchError(this.handleError));
   }
 
   public deleteAppointment(appointmentId): Observable<any> {
@@ -112,10 +111,22 @@ export class ApiService {
 
     // handle error
 
-    return;
+    return this.http.delete(this.API_URL+'/reqappointments/'+appointmentId).pipe(catchError(this.handleError));
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): Observable<any> {
+    let errorMessage;
+
+    // if (error.error instanceof ErrorEvent) {
+      // client-side error
+      // errorMessage = `Error: ${error.error.message}`;
+      errorMessage ={ 'message': error.error.message ​,'status': error.error.status};
+    // } else {
+      // server-side error
+      //  errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      // errorMessage ={ 'message': error.error.message ​,'status': error.error.status};
+    // }
+    return throwError(of(errorMessage));
     // handle error
   }
   
